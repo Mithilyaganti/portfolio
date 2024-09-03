@@ -1,0 +1,248 @@
+/* Container for both docks */
+.dock-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Small gap between the two docks */
+  z-index: 1000;
+}
+
+/* Main dock */
+.dock {
+  display: flex;
+  background-color: rgba(34, 34, 34, 0.8);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.dock-icon {
+  margin: 0 15px;
+  position: relative;
+  transition: transform 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.dock-icon:hover {
+  transform: translateY(-10px) rotate(10deg);
+  filter: brightness(1.2);
+}
+
+/* Prevent shadow/ghosting effect by explicitly resetting transformations */
+.dock-icon:hover,
+.dock-icon:focus {
+  transform: translateY(-10px) rotate(10deg);
+  filter: brightness(1.2);
+  outline: none; /* Remove any focus outlines */
+}
+
+.dock-tooltip {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: none;
+}
+
+.dock-icon:hover .dock-tooltip {
+  display: block;
+}
+
+/* Circular dock for theme toggle */
+.theme-toggle-dock {
+  background-color: rgba(34, 34, 34, 0.8);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle-dock .theme-icon {
+  width: 30px;
+  height: 30px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle-dock:hover .theme-icon {
+  transform: rotate(45deg);
+  filter: brightness(1.5);
+}
+
+/* Dark theme overrides */
+.dark-theme .dock,
+.dark-theme .theme-toggle-dock {
+  background-color: #121212; /* Darker background for docks */
+}
+
+.dark-theme .theme-icon {
+  color: #fff; /* Light icon for dark theme */
+}
+
+/* Light theme overrides */
+.light-theme .dock,
+.light-theme .theme-toggle-dock {
+  background-color: rgba(255, 255, 255, 0.8); /* Lighter background for docks */
+}
+
+.light-theme .theme-icon {
+  color: #000; /* Dark icon for light theme */
+}
+
+/* Text color changes */
+.dark-theme .dock {
+  border: 1px solid #333333; /* Subtle border for dark mode */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow to make it stand out */
+  background-color: #1e1e1e; /* Slightly lighter background for the dock */
+}
+/* Ensure all text within the body changes accordingly */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme p {
+  color: #e0e0e0; /* Light text color for headings and paragraphs */
+}
+
+.light-theme {
+  background-color: #ffffff;
+  color: #000000; /* Default dark text for light mode */
+}
+
+.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-theme .theme-toggle-dock {
+  border: 1px solid #333333; /* Subtle border for dark mode */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow to make it stand out */
+  background-color: #1e1e1e; /* Slightly lighter background for the theme toggle dock */
+} 
+
+
+/* Container for both docks */
+.dock-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Small gap between the two docks */
+  z-index: 1000;
+}
+
+/* Main dock */
+.dock {
+  display: flex;
+  background-color: rgba(34, 34, 34, 0.8);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+/* Circular dock for theme toggle */
+.theme-toggle-dock {
+  background-color: rgba(34, 34, 34, 0.8);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .dock-container {
+    bottom: 10px;
+    gap: 5px;
+  }
+
+  .dock {
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+
+  .dock-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+  }
+
+  .dock-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .theme-toggle-dock {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Hide Blog and Resume icons on mobile */
+  .dock .dock-icon[data-icon="blog"],
+  .dock .dock-icon[data-icon="resume"] {
+    display: none;
+  }
+}
+
+/* dock.css */
+/* Adjust dock styles to fit the new layout */
+.dock-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.dock {
+  display: flex;
+  background-color: rgba(34, 34, 34, 0.8);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle-dock {
+  background-color: rgba(34, 34, 34, 0.8);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+/* Light theme adjustments */
+.light-theme .dock, .light-theme .theme-toggle-dock {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #000;
+}
