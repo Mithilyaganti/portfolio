@@ -1,0 +1,65 @@
+/* Home.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff; /* Background color for the page */
+    font-family: Arial, sans-serif;
+  }
+  
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px; /* Limits the width to prevent excessive wrapping */
+    padding: 20px;
+    text-align: center;
+    color: #333; /* Text color */
+    position: relative;
+  }
+  
+  .home-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+  }
+  
+  .home-content {
+    margin-top: 80px; /* Adds space from the top header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-image {
+    width: 80px; /* Size for the profile image */
+    height: 80px;
+    border-radius: 50%; /* Makes the image a circle */
+    margin-bottom: 20px;
+  }
+  
+  .time {
+    font-size: 16px;
+    color: #666; /* Lighter color for time */
+  }
+  
+  a {
+    color: #007bff; /* Link color */
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
