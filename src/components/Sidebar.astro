@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import { withBase } from '../utils/paths';
+
+interface Props {
+  currentSlug?: string;
+}
+
+const { currentSlug } = Astro.props;
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const byCategory = new Map<string, typeof posts>();
+for (const post of posts) {
+  const cat = post.data.category || 'Notes';
+  if (!byCategory.has(cat)) byCategory.set(cat, []);
+  byCategory.get(cat)!.push(post);
+}
+
+const categories = [...byCategory.keys()].sort((a, b) => a.localeCompare(b));
+---
+
+<aside
+  id="vault-sidebar"
+  class="vault-sidebar border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 md:sticky md:top-16 md:h-[calc(100vh-4rem)] md:overflow-y-auto"
+>
+  <div class="p-5 lg:p-6">
+    <div class="mb-5 flex items-center justify-between gap-2">
+      <p class="text-[0.7rem] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+        Content
+      </p>
+      <button
+        id="sidebar-close"
+        type="button"
+        class="rounded border border-zinc-200 px-2 py-1 text-[0.65rem] text-zinc-500 dark:border-zinc-800 md:hidden"
+      >
+        Close
+      </button>
+    </div>
+
+    <nav class="space-y-5" aria-label="Vault contents">
+      <a
+        href={withBase('/')}
+        class:list={[
+          'block rounded px-2 py-1.5 text-sm transition-colors',
+          !currentSlug
+            ? 'bg-zinc-100 font-medium text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100'
+            : 'text-zinc-500 hover:text-accent dark:text-zinc-400',
+        ]}
+      >
+        Home
+      </a>
+
+      <a
+        href={withBase('/blog')}
+        class="block rounded px-2 py-1.5 text-sm text-zinc-500 transition-colors hover:text-accent dark:text-zinc-400"
+      >
+        All posts
+      </a>
+
+      {
+        categories.map((cat) => (
+          <div>
+            <p class="mb-2 px-2 text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+              {cat}
+            </p>
+            <ul class="space-y-0.5">
+              {byCategory.get(cat)!.map((post) => {
+                const active = currentSlug === post.id;
+                return (
+                  <li>
+                    <a
+                      href={withBase(`/blog/${post.id}/`)}
+                      class:list={[
+                        'block rounded px-2 py-1.5 text-[0.8rem] leading-snug transition-colors',
+                        active
+                          ? 'bg-zinc-100 font-medium text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100'
+                          : 'text-zinc-500 hover:bg-zinc-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900/60 dark:hover:text-zinc-100',
+                      ]}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      {post.data.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+
+    {
+      posts.length === 0 && (
+        <p class="mt-4 px-2 text-xs text-zinc-400">
+          No posts yet. Add markdown files under <code class="text-zinc-500">src/content/blog/</code>.
+        </p>
+      )
+    }
+  </div>
+</aside>

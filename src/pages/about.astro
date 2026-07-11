@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import {
+  about,
+  achievements,
+  certificates,
+  site,
+  skills,
+} from '../data/site';
+import { withBase } from '../utils/paths';
+import { renderBold } from '../utils/markdown';
+---
+
+<BaseLayout title={`About — ${site.name}`} description={about.body}>
+  <section class="page-shell pt-16 pb-20 sm:pt-20 sm:pb-24">
+    <div class="max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+        {about.role}
+      </p>
+      <h1
+        class="mt-4 max-w-3xl text-[clamp(2.5rem,9vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em] text-zinc-900 dark:text-zinc-100"
+      >
+        {about.headline}
+      </h1>
+      <p class="mt-8 max-w-2xl text-[1.02rem] leading-8 text-zinc-600 dark:text-zinc-300">
+        {
+          renderBold(about.blurb).map((p) =>
+            p.type === 'strong' ? <strong>{p.text}</strong> : p.text,
+          )
+        }
+      </p>
+      <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+        <a
+          href={site.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded px-1 py-2 text-sm text-zinc-500 underline underline-offset-4 transition-colors hover:text-accent dark:text-zinc-400"
+        >
+          GitHub
+        </a>
+        <a
+          href={site.socials.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded px-1 py-2 text-sm text-zinc-500 underline underline-offset-4 transition-colors hover:text-accent dark:text-zinc-400"
+        >
+          LinkedIn
+        </a>
+        <a
+          href={site.socials.twitter}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded px-1 py-2 text-sm text-zinc-500 underline underline-offset-4 transition-colors hover:text-accent dark:text-zinc-400"
+        >
+          X
+        </a>
+        <a
+          href={`mailto:${site.email}`}
+          class="inline-flex items-center rounded px-1 py-2 text-sm text-zinc-500 underline underline-offset-4 transition-colors hover:text-accent dark:text-zinc-400"
+        >
+          Email
+        </a>
+        <a
+          href={withBase('/resume')}
+          class="inline-flex items-center rounded px-1 py-2 text-sm text-zinc-500 underline underline-offset-4 transition-colors hover:text-accent dark:text-zinc-400"
+        >
+          Resume
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-zinc-100/50 dark:bg-zinc-900/30">
+    <div class="section-shell">
+      <div class="section-layout">
+        <SectionHeading kicker="01" title="About" />
+        <div class="section-content">
+          <p class="mt-4 max-w-2xl leading-relaxed text-zinc-600 dark:text-zinc-300">
+            {about.body}
+          </p>
+          <div class="mt-8 divide-y divide-zinc-200/70 dark:divide-zinc-800/70">
+            {
+              about.education.map((edu) => (
+                <article class="space-y-1.5 py-5 first:pt-0 last:pb-0">
+                  <h3 class="text-base font-medium">{edu.title}</h3>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400">{edu.org}</p>
+                  <p class="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                    {edu.detail}
+                  </p>
+                  <p class="text-sm text-zinc-400 dark:text-zinc-500">{edu.period}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-shell">
+      <div class="section-layout">
+        <SectionHeading kicker="02" title="Skills" />
+        <div class="section-content">
+          <div class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70">
+            {
+              skills.map((s) => (
+                <div class="grid gap-2 py-5 first:pt-0 last:pb-0 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-6">
+                  <h3 class="text-sm font-medium text-zinc-500 dark:text-zinc-400">{s.group}</h3>
+                  <p class="leading-relaxed text-zinc-600 dark:text-zinc-300">{s.items}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-zinc-100/50 dark:bg-zinc-900/30">
+    <div class="section-shell">
+      <div class="section-layout">
+        <SectionHeading kicker="03" title="Achievements" />
+        <div class="section-content">
+          <ul class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70">
+            {
+              achievements.map((a) => (
+                <li class="py-4 leading-relaxed text-zinc-600 first:pt-0 last:pb-0 dark:text-zinc-300">
+                  {a}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-shell">
+      <div class="section-layout">
+        <SectionHeading kicker="04" title="Certificates" />
+        <div class="section-content">
+          <div class="divide-y divide-zinc-200/70 dark:divide-zinc-800/70">
+            {
+              certificates.map((c) => (
+                <article class="space-y-1.5 py-5 first:pt-0 last:pb-0">
+                  <h3 class="text-base font-medium">{c.title}</h3>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400">{c.org}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

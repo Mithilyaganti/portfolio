@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { withBase } from '../utils/paths';
+
+const resumeUrl = withBase(site.resumePath);
+---
+
+<BaseLayout title={`Resume — ${site.name}`} description="Resume PDF of Mithil Yaganti.">
+  <section class="page-shell py-12 sm:py-16">
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-sm uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">CV</p>
+        <h1
+          class="mt-3 text-[clamp(2rem,6vw,3rem)] font-bold tracking-[-0.03em] text-zinc-900 dark:text-zinc-100"
+        >
+          Resume
+        </h1>
+        <p class="mt-3 max-w-xl text-sm text-zinc-500 dark:text-zinc-400">
+          View the PDF below or download a copy.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={resumeUrl}
+          download="Mithil_Yaganti_Resume.pdf"
+          class="inline-flex items-center rounded border border-zinc-300 px-4 py-2.5 text-sm text-zinc-700 transition-colors hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300"
+        >
+          Download PDF
+        </a>
+        <a
+          href={resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center rounded border border-zinc-300 px-4 py-2.5 text-sm text-zinc-700 transition-colors hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300"
+        >
+          Open in new tab
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+    >
+      <iframe
+        src={`${resumeUrl}#view=FitH`}
+        title="Mithil Yaganti Resume PDF"
+        class="h-[min(85vh,900px)] w-full"
+      ></iframe>
+    </div>
+
+    <p class="mt-4 text-xs text-zinc-400 dark:text-zinc-500">
+      If the preview does not load, use Download PDF or Open in new tab.
+    </p>
+  </section>
+</BaseLayout>

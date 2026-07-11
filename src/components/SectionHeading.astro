@@ -1,0 +1,13 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+}
+
+const { kicker, title } = Astro.props;
+---
+
+<div class="section-heading flex flex-col gap-2">
+  <p class="section-kicker">{kicker}</p>
+  <h2 class="section-title">{title}</h2>
+</div>

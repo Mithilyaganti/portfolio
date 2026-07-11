@@ -1,0 +1,80 @@
+---
+import { navLinks, site } from '../data/site';
+import { withBase } from '../utils/paths';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
+function isActive(href: string) {
+  const full = withBase(href).replace(/\/$/, '') || '/';
+  const current = pathname || '/';
+  if (href === '/') {
+    return current === full || current === base || current === `${base}/` || current === '/';
+  }
+  return current === full || current.startsWith(`${full}/`);
+}
+---
+
+<nav
+  class="sticky top-0 z-50 border-b border-zinc-200 bg-zinc-50/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80"
+  aria-label="Main navigation"
+>
+  <div class="page-shell flex flex-wrap items-center gap-x-3 gap-y-2 py-3 sm:gap-x-4">
+    <a
+      href={withBase('/')}
+      class="order-1 rounded px-3 py-3 text-sm font-medium uppercase tracking-[0.14em] text-zinc-900 dark:text-zinc-100"
+      aria-label="Home"
+    >
+      {site.shortName}
+    </a>
+
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      class="order-2 ml-auto inline-flex items-center rounded border border-zinc-200 px-3 py-2 text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400 sm:hidden"
+      aria-expanded="false"
+      aria-controls="main-nav-links"
+    >
+      Menu
+    </button>
+
+    <div
+      id="main-nav-links"
+      class="order-3 hidden basis-full flex-col gap-1 border-t border-zinc-200/70 pt-2 text-xs sm:order-2 sm:ml-auto sm:flex sm:basis-auto sm:flex-row sm:items-center sm:justify-end sm:gap-1 sm:border-0 sm:pt-0 sm:text-sm"
+    >
+      {
+        navLinks.map((link) => (
+          <a
+            href={withBase(link.href)}
+            class:list={[
+              'inline-flex items-center rounded px-3 py-3 transition-colors',
+              isActive(link.href)
+                ? 'text-zinc-900 dark:text-zinc-100'
+                : 'text-zinc-500 hover:text-accent dark:text-zinc-400',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </div>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('mobile-nav-toggle');
+  const links = document.getElementById('main-nav-links');
+  toggle?.addEventListener('click', () => {
+    links?.classList.toggle('hidden');
+    const isHidden = links?.classList.contains('hidden') ?? true;
+    toggle.setAttribute('aria-expanded', String(!isHidden));
+    if (links && !isHidden) {
+      links.classList.add('flex');
+    } else {
+      links?.classList.remove('flex');
+    }
+  });
+</script>

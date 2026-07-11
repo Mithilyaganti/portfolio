@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentSlug?: string;
+}
+
+const { title, description, currentSlug } = Astro.props;
+---
+
+<BaseLayout title={title ?? site.title} description={description} showFooter={true}>
+  <div class="border-b border-zinc-200 dark:border-zinc-800 md:hidden">
+    <div class="page-shell flex items-center justify-between py-3">
+      <p class="text-xs uppercase tracking-widest text-zinc-400">{site.name}'s vault</p>
+      <button
+        id="sidebar-open"
+        type="button"
+        class="rounded border border-zinc-200 px-3 py-2 text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400"
+      >
+        Contents
+      </button>
+    </div>
+  </div>
+
+  <div class="vault-layout">
+    <div
+      id="sidebar-backdrop"
+      class="fixed inset-0 z-40 hidden bg-zinc-950/40 md:hidden"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div
+      id="sidebar-drawer"
+      class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full border-r border-zinc-200 bg-zinc-50 transition-transform dark:border-zinc-800 dark:bg-zinc-950 md:static md:z-auto md:w-auto md:translate-x-0 md:border-0 md:bg-transparent"
+    >
+      <Sidebar currentSlug={currentSlug} />
+    </div>
+
+    <div class="min-w-0 px-5 py-10 sm:px-8 sm:py-12 lg:px-12">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const openBtn = document.getElementById('sidebar-open');
+  const closeBtn = document.getElementById('sidebar-close');
+  const drawer = document.getElementById('sidebar-drawer');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  function open() {
+    drawer?.classList.remove('-translate-x-full');
+    backdrop?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    drawer?.classList.add('-translate-x-full');
+    backdrop?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  openBtn?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  backdrop?.addEventListener('click', close);
+</script>

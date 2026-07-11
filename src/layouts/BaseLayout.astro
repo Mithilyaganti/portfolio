@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { withBase } from '../utils/paths';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Hide footer on vault-style full-height pages if needed */
+  showFooter?: boolean;
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  showFooter = true,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <script is:inline>
+      (function () {
+        var theme = localStorage.getItem('theme');
+        if (
+          theme === 'dark' ||
+          (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a href="#main" class="skip-to-content">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    {showFooter && <Footer />}
+
+    <script is:inline>
+      if (
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        var cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+        document.body.classList.add('has-custom-cursor');
+
+        var mx = window.innerWidth / 2,
+          my = window.innerHeight / 2;
+        var cx = mx,
+          cy = my;
+
+        document.addEventListener('mousemove', function (e) {
+          mx = e.clientX;
+          my = e.clientY;
+        });
+
+        document.querySelectorAll('a, button').forEach(function (el) {
+          el.addEventListener('mouseenter', function () {
+            cursor.classList.add('grow');
+          });
+          el.addEventListener('mouseleave', function () {
+            cursor.classList.remove('grow');
+          });
+        });
+
+        function tick() {
+          cx += (mx - cx) * 0.15;
+          cy += (my - cy) * 0.15;
+          cursor.style.transform = 'translate(' + (cx - 8) + 'px, ' + (cy - 8) + 'px)';
+          requestAnimationFrame(tick);
+        }
+        tick();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,257 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jetbrains-mono";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+  --color-accent: oklch(50% 0.04 250);
+  --color-zinc-50: oklch(98.5% 0 0);
+  --color-zinc-100: oklch(96.7% 0.001 286.375);
+  --color-zinc-200: oklch(92% 0.004 286.32);
+  --color-zinc-300: oklch(87.1% 0.006 286.286);
+  --color-zinc-400: oklch(70.5% 0.015 286.067);
+  --color-zinc-500: oklch(55.2% 0.016 285.938);
+  --color-zinc-600: oklch(44.2% 0.017 285.786);
+  --color-zinc-700: oklch(37% 0.013 285.805);
+  --color-zinc-800: oklch(27.4% 0.006 286.033);
+  --color-zinc-900: oklch(21% 0.006 285.885);
+  --color-zinc-950: oklch(14.1% 0.005 285.823);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html {
+  font-family: var(--font-mono);
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  min-height: 100vh;
+  @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+::selection {
+  background-color: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+strong {
+  color: color-mix(in srgb, currentColor 88%, var(--color-accent));
+}
+
+.page-shell {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.section-shell {
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  padding-block: clamp(4rem, 7vw, 5.5rem);
+}
+
+.section-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.section-kicker {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  line-height: 1;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  @apply text-zinc-900 dark:text-zinc-100;
+}
+
+.section-content {
+  max-width: 44rem;
+}
+
+@media (min-width: 64rem) {
+  .section-layout {
+    grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .section-heading {
+    align-self: start;
+    position: sticky;
+    top: 6.75rem;
+  }
+}
+
+/* Vault layout */
+.vault-layout {
+  display: grid;
+  min-height: calc(100vh - 4rem);
+}
+
+@media (min-width: 768px) {
+  .vault-layout {
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .vault-layout.has-toc {
+    grid-template-columns: 16rem minmax(0, 1fr) 14rem;
+  }
+}
+
+/* Prose for blog posts */
+.prose-vault {
+  @apply text-[0.95rem] leading-[1.85] text-zinc-600 dark:text-zinc-300;
+}
+
+.prose-vault h1,
+.prose-vault h2,
+.prose-vault h3,
+.prose-vault h4 {
+  @apply font-semibold text-zinc-900 dark:text-zinc-100 scroll-mt-28;
+}
+
+.prose-vault h1 {
+  @apply text-3xl tracking-tight mb-4;
+}
+
+.prose-vault h2 {
+  @apply text-xl mt-10 mb-3;
+}
+
+.prose-vault h3 {
+  @apply text-base mt-8 mb-2;
+}
+
+.prose-vault p {
+  @apply mb-5 max-w-2xl;
+}
+
+.prose-vault ul,
+.prose-vault ol {
+  @apply mb-5 ml-5 max-w-2xl space-y-1.5;
+}
+
+.prose-vault ul {
+  list-style: disc;
+}
+
+.prose-vault ol {
+  list-style: decimal;
+}
+
+.prose-vault a {
+  @apply underline underline-offset-4 decoration-zinc-400/60 hover:text-accent hover:decoration-accent transition-colors;
+}
+
+.prose-vault code {
+  @apply rounded bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 text-[0.85em] text-zinc-800 dark:text-zinc-200;
+}
+
+.prose-vault pre {
+  @apply mb-6 overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 p-4 text-sm;
+}
+
+.prose-vault pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose-vault blockquote {
+  @apply border-l-2 border-accent/50 pl-4 italic text-zinc-500 dark:text-zinc-400 mb-5;
+}
+
+.prose-vault hr {
+  @apply my-10 border-zinc-200 dark:border-zinc-800;
+}
+
+.prose-vault img {
+  @apply my-6 max-w-full h-auto rounded-lg;
+}
+
+.prose-vault table {
+  @apply mb-6 w-full text-sm border-collapse;
+}
+
+.prose-vault th,
+.prose-vault td {
+  @apply border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-left;
+}
+
+.skip-to-content {
+  @apply absolute left-0 z-[100] bg-zinc-950 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-950 px-4 py-2 text-sm font-semibold;
+  top: -100%;
+  transition: top 0.15s var(--ease-out-quart);
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Custom cursor (Jyoti-style, desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor {
+    cursor: none;
+  }
+
+  body.has-custom-cursor a,
+  body.has-custom-cursor button {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  background: transparent;
+  border: 1.5px solid oklch(35% 0 0);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.2s, height 0.2s, background 0.2s, margin 0.2s;
+}
+
+.dark .custom-cursor {
+  border-color: #aeaeae;
+}
+
+.custom-cursor.grow {
+  background: #3a3a3a1f;
+  width: 28px;
+  height: 28px;
+  margin: -6px 0 0 -6px;
+}
+
+.dark .custom-cursor.grow {
+  background: #aeaeae1f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
